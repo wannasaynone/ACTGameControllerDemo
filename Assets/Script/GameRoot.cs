@@ -9,6 +9,10 @@ public class GameRoot : MonoBehaviour {
     private void Start () {
         GameManager.insance.CreateCharacter(0);
         GameManager.insance.CreateCharacter(1);
+        GameManager.insance.CreateCharacter(2);
+        GameManager.insance.CreateCharacter(3);
+        GameManager.insance.CreateCharacter(4);
+        GameManager.insance.CreateCharacter(5);
         playerGO = GameManager.insance.GetCharacterState(GameManager.insance.GetPlayerGuid()).GameObject;
     }
 

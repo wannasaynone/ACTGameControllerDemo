@@ -3,12 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct CharacterSatate
+public struct CharacterState
 {
-    public int MaxHP;
-    public int CurrentHP;
-    public bool isInvincible;
-    public GameObject GameObject;
+    public int MaxHP { private set; get; }
+    public int CurrentHP { private set; get; }
+    public int Attack { private set; get; }
+    public int Defend { private set; get; }
+    public bool isInvincible { private set; get; }
+    public GameObject GameObject { private set; get; }
+
+    public CharacterState(Character Character)
+    {
+        MaxHP = Character.MaxHP;
+        CurrentHP = Character.CurrentHP;
+        Attack = Character.Attack;
+        Defend = Character.Defend;
+        isInvincible = Character.Controller.IsInvincible;
+        GameObject = Character.Controller.gameObject;
+    }
 }
 
 public class GameManager  {
@@ -44,9 +56,6 @@ public class GameManager  {
 
     public GameObject CreateCharacter(int CharacterID)
     {
-        if (characters.Count >= 2)
-            characters = new List<Character>();//測試用->重Load遊戲後清空場景角色清單
-
         if(CharacterID == 0)                   //測試中，這邊應該要根據ID跟DB拿資料
         {                                      
             Character newChar = new Character(
@@ -68,7 +77,7 @@ public class GameManager  {
                 100,
                 90,
                 "AI",
-                new Vector3(1, 0));
+                new Vector3(CharacterID, 0));
             characters.Add(newChar);
             return newChar.Controller.gameObject;
         }
@@ -78,6 +87,8 @@ public class GameManager  {
     {
         Character attacker = characters.Find(x => x.GUID == Attacker);
         Character defender = characters.Find(x => x.GUID == Defender);
+        CharacterState attackerState = new CharacterState(attacker);
+        CharacterState defenderState = new CharacterState(defender);
 
         if (attacker == null)
             return;
@@ -86,7 +97,7 @@ public class GameManager  {
         if (defender.Controller.IsInvincible)
             return;
 
-        int defenderTakenDmg = combatManager.NormalAttack(attacker, defender);
+        int defenderTakenDmg = combatManager.NormalAttack(attackerState, defenderState);
 
         defender.TakeDamage(defenderTakenDmg);
 
@@ -126,17 +137,10 @@ public class GameManager  {
         hit.transform.position = Posisiton;
     }
 
-    public CharacterSatate GetCharacterState(Guid GUID)
+    public CharacterState GetCharacterState(Guid GUID)
     {
         Character target = characters.Find(x => x.GUID == GUID);
-        CharacterSatate state = new CharacterSatate();
-        if (target != null)
-        {
-            state.MaxHP = target.MaxHP;
-            state.CurrentHP = target.CurrentHP;
-            state.isInvincible = target.Controller.IsInvincible;
-            state.GameObject = target.Controller.gameObject;
-        }
+        CharacterState state = new CharacterState(target);
         return state;
     }
 

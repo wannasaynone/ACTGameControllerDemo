@@ -492,7 +492,7 @@ public class Controller : MonoBehaviour {
         AIDo();//切換完AI狀態後執行
     }
 
-    private CharacterSatate playerState = new CharacterSatate();
+    private CharacterState playerState = new CharacterState();
     private void AICondition()
     {
         if(aiConditionJudgeTimer <= 0)
