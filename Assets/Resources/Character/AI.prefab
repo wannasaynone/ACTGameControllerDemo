@@ -278,7 +278,7 @@ MonoBehaviour:
   NormalAttackCd: 0.25
   MovingSpeedWhenGetHit: 25
   RecoverInvincibleTime: 1
-  isAi: 1
+  isAI: 1
   TestHPText: {fileID: 102701440878246124}
 --- !u!212 &212754821926580514
 SpriteRenderer:
