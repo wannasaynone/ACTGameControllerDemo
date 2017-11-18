@@ -1,4 +1,4 @@
-# Project Fake LF2
+# ACT Game Controller Demo
 
 <B>圖片版權：http://lf2.net
 
