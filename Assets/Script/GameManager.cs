@@ -28,14 +28,17 @@ public class GameManager  {
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private CombatManager combatManager;
-    private List<Character> characters = new List<Character>();
-    private GameObject hitEffect = Resources.Load<GameObject>("hit_effect");
-    private Guid playerGuid;
 
     public GameManager()
     {
         combatManager = new CombatManager();
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private List<Character> characters = new List<Character>();
+    private GameObject hitEffect = Resources.Load<GameObject>("hit_effect");
+    private Guid playerGuid;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -45,31 +48,27 @@ public class GameManager  {
             characters = new List<Character>();//測試用->重Load遊戲後清空場景角色清單
 
         if(CharacterID == 0)                   //測試中，這邊應該要根據ID跟DB拿資料
-        {
-            Character newChar = new Character();
-            newChar.Attack = 100;
-            newChar.Defend = 90;
-            newChar.MaxHP = 100;
-            newChar.CurrentHP = newChar.MaxHP;
-            newChar.PrefabName = "Player";
-            newChar.Controller = UnityEngine.Object.Instantiate(Resources.Load<Controller>(Const.CharacterControllerPath + newChar.PrefabName));
-            newChar.GUID = newChar.Controller.GetGUID();
-            newChar.Controller.gameObject.transform.localPosition = new Vector3(-1, 0);
+        {                                      
+            Character newChar = new Character(
+                CharacterID,
+                100,
+                100,
+                90,
+                "Player",
+                new Vector3(-1, 0));
             characters.Add(newChar);
-            playerGuid = newChar.GUID;
+            playerGuid = newChar.GUID;//測試中，玩家的產生應該要另外開一個API
             return newChar.Controller.gameObject;
         }
         else
         {
-            Character newChar = new Character();
-            newChar.Attack = 100;
-            newChar.Defend = 90;
-            newChar.MaxHP = 100;
-            newChar.CurrentHP = newChar.MaxHP;
-            newChar.PrefabName = "AI";
-            newChar.Controller = UnityEngine.Object.Instantiate(Resources.Load<Controller>(Const.CharacterControllerPath + newChar.PrefabName));
-            newChar.GUID = newChar.Controller.GetGUID();
-            newChar.Controller.gameObject.transform.localPosition = new Vector3(1, 0);
+            Character newChar = new Character(
+                CharacterID,
+                100,
+                100,
+                90,
+                "AI",
+                new Vector3(1, 0));
             characters.Add(newChar);
             return newChar.Controller.gameObject;
         }
@@ -88,7 +87,9 @@ public class GameManager  {
             return;
 
         int defenderTakenDmg = combatManager.NormalAttack(attacker, defender);
-        
+
+        defender.TakeDamage(defenderTakenDmg);
+
         if(isHeavyHit)
         {
             if (attacker.Controller.isFacingRight() && !defender.Controller.isFacingRight()
@@ -121,7 +122,7 @@ public class GameManager  {
 
     public void CreateHitEffect(Vector3 Posisiton)
     {
-        GameObject hit = GameObject.Instantiate(hitEffect);
+        GameObject hit = UnityEngine.Object.Instantiate(hitEffect);
         hit.transform.position = Posisiton;
     }
 

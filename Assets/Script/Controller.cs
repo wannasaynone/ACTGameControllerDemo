@@ -33,7 +33,7 @@ public class Controller : MonoBehaviour {
     private Rigidbody2D rigid;
     private Animator anim;
     private SpriteRenderer sprite;
-    private Guid GUID;
+    public Guid GUID { private set; get; }
     [SerializeField]
     private TextMesh TestHPText;
 
@@ -42,7 +42,6 @@ public class Controller : MonoBehaviour {
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
-        GUID = Guid.NewGuid();
     }
 
     private void Update()
@@ -59,9 +58,12 @@ public class Controller : MonoBehaviour {
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Guid GetGUID()
+    public void SetGUID(Guid GUID)
     {
-        return GUID;
+        if (this.GUID == Guid.Empty)
+            this.GUID = GUID;
+        else
+            Debug.LogError("Is Trying To Reset GUID on Controller:" + gameObject.name);
     }
 
     public void SetIsHurt(bool isAttackFromFront)

@@ -14,8 +14,6 @@ public class CombatManager  {
         int dmg = (Attacker.Attack - Defender.Defend);
         dmg = dmg > 0 ? dmg : 0;
 
-        Defender.CurrentHP -= dmg;
-
         return dmg;
     }
 
