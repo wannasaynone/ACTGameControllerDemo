@@ -17,6 +17,8 @@ public class HitBox : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        GameManager.insance.Combat_Hit(Attacker.gameObject, collision.gameObject, isHeavyHit);
+        Controller defender = collision.gameObject.GetComponent<Controller>();
+        if(defender)
+            GameManager.insance.Combat_Hit(Attacker.GUID, defender.GUID, isHeavyHit);
     }
 }

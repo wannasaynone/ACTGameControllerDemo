@@ -74,10 +74,10 @@ public class GameManager  {
         }
     }
 
-    public void Combat_Hit(GameObject Attacker, GameObject Defender, bool isHeavyHit)
+    public void Combat_Hit(Guid Attacker, Guid Defender, bool isHeavyHit)
     {
-        Character attacker = characters.Find(x => x.Controller.gameObject == Attacker);
-        Character defender = characters.Find(x => x.Controller.gameObject == Defender);
+        Character attacker = characters.Find(x => x.GUID == Attacker);
+        Character defender = characters.Find(x => x.GUID == Defender);
 
         if (attacker == null)
             return;

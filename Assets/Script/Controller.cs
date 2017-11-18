@@ -424,6 +424,8 @@ public class Controller : MonoBehaviour {
                     sprite.enabled = true;
                 yield return new WaitForSeconds(0.1f);
             }
+            if (!sprite.enabled)
+                sprite.enabled = true;
             enteredIEIInvincible = false;
         }
     }
