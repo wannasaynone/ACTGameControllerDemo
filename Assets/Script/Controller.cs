@@ -497,7 +497,7 @@ public class Controller : MonoBehaviour {
     {
         if(aiConditionJudgeTimer <= 0)
         {
-            playerState = GameManager.insance.GetCharacterState(GameManager.insance.GetPlayerGuid());
+            playerState = GameManager.insance.GetPlayer();
             aiConditionJudgeTimer = 0.5f;
             if (playerState.CurrentHP < 0)
                 _currnetAIState = aiMotionOptions.Idle;

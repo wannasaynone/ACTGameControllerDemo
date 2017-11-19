@@ -97,38 +97,8 @@ public class GameManager  {
         if (defender.Controller.IsInvincible)
             return;
 
-        int defenderTakenDmg = combatManager.NormalAttack(attackerState, defenderState);
-
-        defender.TakeDamage(defenderTakenDmg);
-
-        if(isHeavyHit)
-        {
-            if (attacker.Controller.isFacingRight() && !defender.Controller.isFacingRight()
-                || !attacker.Controller.isFacingRight() && defender.Controller.isFacingRight())
-                defender.Controller.SetIsHeavyHurt(true);
-            else
-                defender.Controller.SetIsHeavyHurt(false);
-        }
-        else
-        {
-            if (attacker.Controller.isFacingRight() && !defender.Controller.isFacingRight()
-                || !attacker.Controller.isFacingRight() && defender.Controller.isFacingRight())
-                defender.Controller.SetIsHurt(true);
-            else
-                defender.Controller.SetIsHurt(false);
-        }
-
-        if (attacker.Controller.isFacingRight() && !defender.Controller.isFacingRight()
-            || !attacker.Controller.isFacingRight() && defender.Controller.isFacingRight())
-        {
-            if (defender.CurrentHP <= 0)
-                defender.Controller.SetIsDie(true);
-        }
-        else
-        {
-            if (defender.CurrentHP <= 0)
-                defender.Controller.SetIsDie(false);
-        }
+        int defenderTakenDmg = combatManager.NormalAttack(attacker, defender, isHeavyHit);
+        Debug.Log(defenderState.GameObject.name + " Take " + defenderTakenDmg + " dmg");
     }
 
     public void CreateHitEffect(Vector3 Posisiton)
@@ -144,9 +114,9 @@ public class GameManager  {
         return state;
     }
 
-    public Guid GetPlayerGuid()
+    public CharacterState GetPlayer()
     {
-        return playerGuid;
+        return GetCharacterState(playerGuid);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////

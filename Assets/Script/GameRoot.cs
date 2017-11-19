@@ -13,7 +13,7 @@ public class GameRoot : MonoBehaviour {
         GameManager.insance.CreateCharacter(3);
         GameManager.insance.CreateCharacter(4);
         GameManager.insance.CreateCharacter(5);
-        playerGO = GameManager.insance.GetCharacterState(GameManager.insance.GetPlayerGuid()).GameObject;
+        playerGO = GameManager.insance.GetPlayer().GameObject;
     }
 
     private void Update()
